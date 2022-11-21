@@ -13,16 +13,24 @@ export const resolvers = {
         jobs: async () => await Job.findAll(),
     },
 
-    Job: {
-        company: (parent) => {
-            return Company.findById(parent.companyId);
+    Mutation: {
+        createJob: async (_root, { input }) => await Job.create(input),
+        deleteJob: async (_root, { id }) => await Job.delete(id),
+        updateJob: async (root, props) => {
+            console.log(root);
+            console.log(props);
         },
-        // description: () => "override...",
     },
 
     Company: {
         jobs: async (parent, args) => {
             return await Job.findAll((job) => job.companyId === parent.id);
         },
+    },
+    Job: {
+        company: (parent) => {
+            return Company.findById(parent.companyId);
+        },
+        // description: () => "override...",
     },
 };
